@@ -280,10 +280,10 @@
     }
     .drum-line {
       position: absolute; left: 0; width: 100%;
-      font-size: 19px; font-weight: 700; line-height: 1.4;
-      white-space: nowrap; text-align: left; direction: ltr;
+      font-size: 17px; font-weight: 700; line-height: 1.45;
+      white-space: normal; text-align: left; direction: rtl;
       will-change: transform, opacity, filter;
-      height: 52px; display: flex; align-items: center;
+      min-height: 64px; display: flex; align-items: center;
     }
     .hl-pink  { color: var(--pink); font-weight: 800; text-shadow: 0 0 12px rgba(255,0,94,.6); }
     .hl-white { color: #fff;        font-weight: 800; text-shadow: 0 0 8px  rgba(255,255,255,.4); }
@@ -414,10 +414,10 @@
     }
     .about-drum-line {
       position: absolute; width: 100%;
-      font-size: 22px; font-weight: 700; line-height: 1.4;
-      white-space: nowrap; text-align: center; direction: rtl;
+      font-size: 20px; font-weight: 700; line-height: 1.5;
+      white-space: normal; text-align: center; direction: rtl;
       will-change: transform, opacity, filter;
-      height: 56px; display: flex; align-items: center; justify-content: center;
+      min-height: 64px; display: flex; align-items: center; justify-content: center;
     }
     .about-drum-line .adl-pink  { color: var(--pink); font-weight: 800; text-shadow: 0 0 14px rgba(255,0,94,.7); }
     .about-drum-line .adl-white { color: #fff;        font-weight: 800; text-shadow: 0 0 10px rgba(255,255,255,.5); }
@@ -890,7 +890,7 @@ function renderTiles(lp) {
 }
 
 // ── ABOUT DRUM RENDER ────────────────────────────
-const AR = 380, ALH = 56;
+const AR = 380, ALH = 72;
 function renderAboutDrum(sp) {
   const dp = clamp01((sp - 3.20) / (3.50 - 3.20));
   const ti = dp * (ABOUT_LINES.length - 1);
@@ -911,7 +911,7 @@ function renderAboutDrum(sp) {
 }
 
 // ── DRUM RENDER ──────────────────────────────────
-const R = 380, LH = 52;
+const R = 380, LH = 72;
 function renderDrum(lp) {
   const dp = clamp01((lp - 1.45) / (3.5 - 1.45));
   const ti = dp * (LINES.length - 1);
