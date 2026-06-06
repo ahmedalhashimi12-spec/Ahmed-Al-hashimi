@@ -1,13 +1,1022 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>د. عبد الجبار عبد الله | الإرث العلمي الخالد</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تكريم د. عبد الجبار عبد الله</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --pink: #FF005E;
+      --pink-dim: #ea1f63;
+      --dark: #11010a;
+      --font: 'Cairo', 'Manrope', sans-serif;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: var(--dark);
+      color: #fff;
+      font-family: var(--font);
+      overflow: hidden;
+    }
+
+    /* ─── HEADER ─── */
+    #site-header {
+      position: fixed;
+      top: 64px; left: 64px; right: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+      pointer-events: auto;
+    }
+    .logo-text {
+      text-align: right;
+      font-size: 11px;
+      line-height: 1.6;
+      opacity: .8;
+      cursor: pointer;
+      transition: opacity .2s;
+      direction: rtl;
+      font-weight: 400;
+    }
+    .logo-text:hover { opacity: 1; }
+    nav { display: flex; align-items: center; gap: 32px; direction: ltr; }
+    nav button {
+      background: none; border: none; color: #fff;
+      font-family: var(--font); font-size: 14px; font-weight: 600;
+      cursor: pointer; padding: 4px 0;
+      transition: color .3s;
+    }
+    nav button:hover { color: var(--pink); }
+    nav button.active {
+      color: var(--pink); font-weight: 700;
+      filter: drop-shadow(0 0 8px rgba(255,0,94,.4));
+    }
+    nav button.pill {
+      padding: 8px 20px;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 999px;
+      transition: background .3s, color .3s, border-color .3s;
+    }
+    nav button.pill:hover, nav button.pill.active {
+      background: #fff; color: var(--dark); border-color: #fff;
+    }
+    #hamburger {
+      display: none;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 50%;
+      width: 40px; height: 40px;
+      align-items: center; justify-content: center;
+      cursor: pointer; color: #fff; font-size: 18px;
+      backdrop-filter: blur(8px);
+    }
+    #mobile-menu {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(17,1,10,.98);
+      backdrop-filter: blur(20px);
+      z-index: 99;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 32px;
+    }
+    #mobile-menu.open { display: flex; }
+    .mobile-nav-item {
+      width: 100%; text-align: right; direction: rtl;
+      font-size: 16px; font-family: var(--font);
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      color: rgba(255,255,255,.7);
+      background: none; border-left: none; border-right: none; border-top: none;
+      cursor: pointer; transition: color .2s;
+      display: flex; justify-content: flex-start; align-items: center; gap: 12px;
+    }
+    .mobile-nav-item:hover, .mobile-nav-item.active { color: var(--pink); }
+    .mobile-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pink); display: none; }
+    .mobile-nav-item.active .mobile-dot { display: block; }
+
+    /* ─── APP CONTAINER ─── */
+    #app { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+
+    /* ══════════ SCREEN 1 ══════════ */
+    #screen1 {
+      position: absolute; inset: 0;
+      background: var(--pink);
+      z-index: 10;
+      will-change: filter;
+      overflow: hidden;
+    }
+
+    /* Video Scrubber */
+    #video-wrap1 {
+      position: absolute; inset: 0;
+      background: var(--pink);
+      overflow: hidden;
+    }
+    #video-parallax1 {
+      width: 100%; height: 100%;
+      will-change: transform;
+      transform: scale(1.05);
+    }
+    #video1 {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      pointer-events: none; user-select: none;
+    }
+    #video-loading1 {
+      position: absolute; inset: 0;
+      background: rgba(255,0,94,.96);
+      z-index: 50;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 24px;
+    }
+    .spinner-ring {
+      position: relative; width: 64px; height: 64px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .spinner-ping {
+      position: absolute; width: 64px; height: 64px;
+      border-radius: 50%; border: 1px solid rgba(234,31,99,.2);
+      animation: ping 1s cubic-bezier(0,0,.2,1) infinite;
+    }
+    .spinner-spin {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 4px solid rgba(234,31,99,.2);
+      border-top-color: var(--pink-dim);
+      animation: spin .8s linear infinite;
+    }
+    @keyframes ping  { 75%,100%{transform:scale(2);opacity:0} }
+    @keyframes spin  { to{transform:rotate(360deg)} }
+    .loading-text {
+      font-size: 13px; font-weight: 700; color: var(--pink-dim);
+      filter: drop-shadow(0 0 8px rgba(234,31,99,.4));
+    }
+
+    /* Soap Tiles */
+    #soap-tiles {
+      position: absolute;
+      left: 64px; top: 50%; transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 10px;
+      z-index: 40;
+      direction: ltr;
+    }
+    .soap-tile {
+      height: 138px;
+      background: rgba(255,255,255,.05);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 34px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 56px;
+      cursor: pointer;
+      white-space: nowrap;
+      user-select: none;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,.2), 0 12px 36px rgba(0,0,0,.3);
+      will-change: transform, opacity, filter;
+      transition: background .3s, border-color .3s, box-shadow .3s;
+      opacity: 0;
+      transform-origin: left center;
+    }
+    .soap-tile:hover {
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.22);
+      box-shadow: 0 25px 60px rgba(255,0,94,.15);
+    }
+    .soap-tile span {
+      font-size: 22px; font-weight: 700;
+      direction: rtl;
+    }
+
+    /* Hero title */
+    #hero-title {
+      position: absolute;
+      bottom: 40px; left: 1%; right: 1%;
+      text-align: center;
+      font-size: 8vw; font-weight: 800; color: #fff;
+      pointer-events: none; white-space: nowrap; line-height: 1;
+    }
+    .hero-word { display: inline-block; will-change: transform, opacity; }
+
+    /* ══════════ SCREEN 2 ══════════ */
+    #screen2 {
+      position: absolute; bottom: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--dark);
+      border-radius: 48px 48px 0 0;
+      border-top: 1px solid rgba(255,255,255,.1);
+      z-index: 40;
+      transform: translateY(100%);
+      will-change: transform;
+      overflow: hidden;
+      box-shadow: 0 -20px 100px rgba(0,0,0,.8);
+      visibility: hidden;
+    }
+    .grab-handle {
+      position: absolute; top: 20px; left: 50%;
+      transform: translateX(-50%);
+      width: 64px; height: 5px;
+      background: rgba(255,255,255,.2);
+      border-radius: 999px; z-index: 50; pointer-events: none;
+    }
+    .s2-glow {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(234,31,99,.1), transparent);
+      pointer-events: none; z-index: 10;
+    }
+
+    /* Video Scrubber 2 */
+    #video-wrap2 {
+      position: absolute; inset: 0;
+      background: var(--dark);
+      overflow: hidden;
+    }
+    #video-parallax2 {
+      width: 100%; height: 100%;
+      will-change: transform;
+      transform: scale(1.05);
+    }
+    #video2 {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      pointer-events: none; user-select: none;
+      opacity: .55;
+    }
+    #video-loading2 {
+      position: absolute; inset: 0;
+      background: rgba(17,1,10,.96);
+      z-index: 50;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 24px;
+    }
+
+    /* ─── CYLINDRICAL DRUM ─── */
+    #drum-container {
+      position: absolute; inset-block: 0; left: 0;
+      width: 60%; z-index: 30;
+      display: flex; flex-direction: column;
+      align-items: flex-start; justify-content: center;
+      padding: 64px 80px;
+      perspective: 1000px;
+      perspective-origin: 25% 50%;
+      mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 80%, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 80%, transparent);
+      pointer-events: none; user-select: none;
+    }
+    #drum-inner {
+      position: relative;
+      width: 100%; height: 85vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      transform-style: preserve-3d;
+      overflow: visible;
+    }
+    .drum-line {
+      position: absolute; left: 0; width: 100%;
+      font-size: 19px; font-weight: 700; line-height: 1.4;
+      white-space: nowrap; text-align: left; direction: ltr;
+      will-change: transform, opacity, filter;
+      height: 52px; display: flex; align-items: center;
+    }
+    .hl-pink  { color: var(--pink); font-weight: 800; text-shadow: 0 0 12px rgba(255,0,94,.6); }
+    .hl-white { color: #fff;        font-weight: 800; text-shadow: 0 0 8px  rgba(255,255,255,.4); }
+    .dim      { color: rgba(255,255,255,.6); font-weight: 600; }
+
+    /* ─── RIGHT TIMELINE ─── */
+    #screen2-right {
+      position: absolute; inset-block: 0; right: 0;
+      width: 40%; z-index: 20;
+      display: flex; flex-direction: column;
+      align-items: flex-end; justify-content: center;
+      padding: 64px 48px;
+      pointer-events: none;
+    }
+    .tl-header {
+      text-align: center; margin-bottom: 40px;
+      direction: rtl; align-self: center;
+    }
+    .tl-header-label {
+      font-size: 10px; color: var(--pink); font-weight: 700;
+      letter-spacing: 2px; margin-bottom: 8px;
+    }
+    .tl-divider { width: 40px; height: 1px; background: var(--pink); margin: 0 auto; }
+    .timeline-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      margin-bottom: 28px; text-align: right; direction: rtl;
+      width: 100%;
+      opacity: 0; transform: translateX(30px);
+      transition: opacity .6s, transform .6s;
+    }
+    .timeline-item.visible { opacity: 1; transform: translateX(0); }
+    .tl-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--pink); flex-shrink: 0; margin-top: 6px;
+      box-shadow: 0 0 8px var(--pink);
+    }
+    .tl-year { font-size: 11px; color: var(--pink); font-weight: 700; margin-bottom: 4px; direction: ltr; }
+    .tl-text { font-size: 12px; color: rgba(255,255,255,.7); line-height: 1.5; }
+
+    /* ─── MARQUEE ─── */
+    #marquee-wrap {
+      position: absolute; bottom: 48px; left: 0;
+      width: 60%; padding-left: 80px; padding-right: 64px;
+      z-index: 50;
+    }
+    .marquee-border { border-top: 1px solid rgba(255,255,255,.08); padding-top: 24px; }
+    .marquee-container {
+      display: flex; overflow: hidden; width: 100%;
+      mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+    }
+    .marquee-track {
+      display: flex; width: max-content; flex-wrap: nowrap;
+      align-items: center; gap: 80px; padding-right: 80px;
+      animation: marquee-scroll 20s linear infinite;
+      will-change: transform;
+    }
+    @keyframes marquee-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      font-size: 11px; color: rgba(255,255,255,.5);
+      font-weight: 600; white-space: nowrap; cursor: default;
+      transition: color .2s;
+    }
+    .marquee-item:hover { color: var(--pink); }
+
+    /* ─── DATA INDICATOR ─── */
+    #data-indicator {
+      position: absolute; bottom: 32px; right: 48px;
+      display: flex; flex-direction: column;
+      align-items: flex-end; gap: 8px;
+      z-index: 50; pointer-events: none; user-select: none;
+    }
+    .data-row { display: flex; align-items: center; gap: 12px; direction: ltr; }
+    .data-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--pink); animation: blink 1.4s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    #data-val { font-size: 11px; color: var(--pink); font-weight: 700; direction: ltr; }
+
+    /* ─── ABOUT SECTION ─── */
+    #section-about {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 80px;
+      background: var(--dark);
+      z-index: 60; direction: rtl;
+      opacity: 0; pointer-events: none;
+      transition: opacity .6s;
+      overflow: hidden;
+    }
+    #section-about.visible { opacity: 1; pointer-events: auto; }
+    #about-video-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: .35;
+      pointer-events: none;
+    }
+    #about-video-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(17,1,10,.55) 0%, rgba(17,1,10,.3) 40%, rgba(17,1,10,.75) 100%);
+      pointer-events: none;
+    }
+    /* ─── ABOUT DRUM ─── */
+    #about-drum-container {
+      position: absolute; inset-block: 0; left: 0; right: 0;
+      z-index: 2;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      perspective: 1000px;
+      perspective-origin: 50% 50%;
+      mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,1) 18%, rgba(0,0,0,1) 82%, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,1) 18%, rgba(0,0,0,1) 82%, transparent);
+      pointer-events: none; user-select: none;
+    }
+    #about-drum-inner {
+      position: relative;
+      width: 100%; height: 80vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      transform-style: preserve-3d;
+      overflow: visible;
+    }
+    .about-drum-line {
+      position: absolute; width: 100%;
+      font-size: 22px; font-weight: 700; line-height: 1.4;
+      white-space: nowrap; text-align: center; direction: rtl;
+      will-change: transform, opacity, filter;
+      height: 56px; display: flex; align-items: center; justify-content: center;
+    }
+    .about-drum-line .adl-pink  { color: var(--pink); font-weight: 800; text-shadow: 0 0 14px rgba(255,0,94,.7); }
+    .about-drum-line .adl-white { color: #fff;        font-weight: 800; text-shadow: 0 0 10px rgba(255,255,255,.5); }
+    .about-drum-line .adl-dim   { color: rgba(255,255,255,.65); font-weight: 600; }
+
+    /* ─── SCROLL HINT ─── */
+    #scroll-hint {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px; color: rgba(255,255,255,.45);
+      z-index: 200; pointer-events: none; text-align: center;
+      direction: rtl;
+      animation: hint-fade 4s ease forwards;
+    }
+    @keyframes hint-fade { 0%{opacity:1} 70%{opacity:1} 100%{opacity:0} }
+    .scroll-arrow {
+      display: block; font-size: 20px; margin-bottom: 4px;
+      animation: arrow-bounce 1.4s ease-in-out infinite;
+    }
+    @keyframes arrow-bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      #site-header { top: 16px; left: 16px; right: 16px; }
+      nav { display: none; }
+      #hamburger { display: flex; }
+      #hero-title { font-size: 11vw; }
+      #soap-tiles { left: 16px; }
+      .soap-tile { height: 52px; padding: 0 16px; border-radius: 14px; }
+      .soap-tile span { font-size: 11px; }
+      #drum-container { width: 100%; padding: 64px 24px; }
+      #screen2-right { display: none; }
+      #marquee-wrap { width: 100%; padding-left: 24px; padding-right: 24px; }
+      #data-indicator { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header id="site-header">
+  <div class="logo-text" onclick="navigateTo(0)">
+    تكريم للعالم العراقي د. عبد الجبار عبد الله<br>
+    تلميذ ألبرت أينشتاين النجيب<br>
+    ورئيس جامعة بغداد الأسبق
+  </div>
+  <nav>
+    <button id="nav-legacy" onclick="navigateTo(0.95)">الإرث العلمي</button>
+    <button id="nav-bio"    onclick="navigateTo(1.95)">السيرة الذاتية</button>
+    <button id="nav-about" class="pill" onclick="navigateTo(3.50)">البيان التكريمي</button>
+  </nav>
+  <button id="hamburger" onclick="toggleMobileMenu()">☰</button>
+</header>
+
+<div id="mobile-menu">
+  <button class="mobile-nav-item" onclick="navigateTo(0.95);toggleMobileMenu()">
+    <span class="mobile-dot"></span>الإرث العلمي
+  </button>
+  <button class="mobile-nav-item" onclick="navigateTo(1.95);toggleMobileMenu()">
+    <span class="mobile-dot"></span>السيرة الذاتية
+  </button>
+  <button class="mobile-nav-item" onclick="navigateTo(3.50);toggleMobileMenu()">
+    <span class="mobile-dot"></span>البيان التكريمي
+  </button>
+  <button style="margin-top:32px;background:none;border:none;color:rgba(255,255,255,.4);font-size:14px;cursor:pointer;font-family:var(--font)" onclick="toggleMobileMenu()">✕ إغلاق</button>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app">
+
+  <!-- SCREEN 1 -->
+  <div id="screen1">
+
+    <!-- Video Scrubber 1 -->
+    <div id="video-wrap1">
+      <div id="video-parallax1">
+        <video id="video1"
+          src="assets/video1.mp4"
+          playsinline muted preload="auto">
+        </video>
+      </div>
+      <div id="video-loading1">
+        <div class="spinner-ring">
+          <div class="spinner-ping"></div>
+          <div class="spinner-spin"></div>
+        </div>
+        <span class="loading-text">جاري تحميل البث التفاعلي...</span>
+      </div>
+    </div>
+
+    <!-- Soap Tiles -->
+    <div id="soap-tiles">
+      <div class="soap-tile" id="tile-0" data-offset="120">
+        <span>تلميذ ألبرت أينشتاين وحامل إرثه العلمي</span>
+      </div>
+      <div class="soap-tile" id="tile-1" data-offset="180">
+        <span>ثاني رئيس في تاريخ جامعة بغداد العتيدة</span>
+      </div>
+      <div class="soap-tile" id="tile-2" data-offset="240">
+        <span>رائد فيزياء الأعاصير وديناميكيات الغلاف الجوي</span>
+      </div>
+    </div>
+
+    <!-- Hero title -->
+    <div id="hero-title">
+      <span class="hero-word" id="hw0">عبد الجبار</span>&nbsp;<span class="hero-word" id="hw1">عبد الله</span>
+    </div>
+
+  </div><!-- /screen1 -->
+
+  <!-- SCREEN 2 -->
+  <div id="screen2">
+    <div class="grab-handle"></div>
+    <div class="s2-glow"></div>
+
+    <!-- Video Scrubber 2 -->
+    <div id="video-wrap2">
+      <div id="video-parallax2">
+        <video id="video2"
+          src="assets/video1.mp4"
+          playsinline muted preload="auto">
+        </video>
+      </div>
+      <div id="video-loading2">
+        <div class="spinner-ring">
+          <div class="spinner-ping"></div>
+          <div class="spinner-spin" style="border-top-color:var(--pink)"></div>
+        </div>
+        <span class="loading-text">جاري تهيئة العرض ثلاثي الأبعاد...</span>
+      </div>
+    </div>
+
+    <!-- Cylindrical Drum -->
+    <div id="drum-container">
+      <div id="drum-inner"></div>
+    </div>
+
+    <!-- Right Timeline -->
+    <div id="screen2-right">
+      <div class="tl-header">
+        <div class="tl-header-label">المحطات الكبرى</div>
+        <div class="tl-divider"></div>
+      </div>
+      <div class="timeline-item" id="tl-1">
+        <div style="flex:1">
+          <div class="tl-year">١٩١١</div>
+          <div class="tl-text">الميلاد في محافظة ميسان<br>من عائلة صابئية مندائية</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+      <div class="timeline-item" id="tl-2">
+        <div style="flex:1">
+          <div class="tl-year">١٩٣٤</div>
+          <div class="tl-text">التخرج من الجامعة الأمريكية<br>في بيروت تخصص فيزياء</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+      <div class="timeline-item" id="tl-3">
+        <div style="flex:1">
+          <div class="tl-year">١٩٤٦</div>
+          <div class="tl-text">الدكتوراه من معهد MIT<br>ولقاء أينشتاين في برنستون</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+      <div class="timeline-item" id="tl-4">
+        <div style="flex:1">
+          <div class="tl-year">١٩٥٩</div>
+          <div class="tl-text">رئاسة جامعة بغداد<br>وتأسيس قسم الفيزياء</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+      <div class="timeline-item" id="tl-5">
+        <div style="flex:1">
+          <div class="tl-year">١٩٦٩</div>
+          <div class="tl-text">الرحيل وإرث علمي خالد</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+    </div>
+
+    <!-- About section (deep scroll) -->
+    <div id="section-about">
+      <video id="about-video-bg"
+        src="assets/video2.mp4"
+        playsinline muted loop preload="auto" autoplay>
+      </video>
+      <div id="about-video-overlay"></div>
+      <div id="about-drum-container">
+        <div id="about-drum-inner"></div>
+      </div>
+    </div>
+
+    <!-- Marquee -->
+    <div id="marquee-wrap">
+      <div class="marquee-border">
+        <div class="marquee-container">
+          <div class="marquee-track">
+            <span class="marquee-item">معهد ماساتشوستس للتكنولوجيا (MIT)</span>
+            <span class="marquee-item">جامعة بغداد</span>
+            <span class="marquee-item">الجامعة الأمريكية في بيروت (AUB)</span>
+            <span class="marquee-item">المركز الوطني لأبحاث الغلاف الجوي (NCAR)</span>
+            <span class="marquee-item">جامعة ولاية نيويورك بألباني (SUNY)</span>
+            <span class="marquee-item">معهد ماساتشوستس للتكنولوجيا (MIT)</span>
+            <span class="marquee-item">جامعة بغداد</span>
+            <span class="marquee-item">الجامعة الأمريكية في بيروت (AUB)</span>
+            <span class="marquee-item">المركز الوطني لأبحاث الغلاف الجوي (NCAR)</span>
+            <span class="marquee-item">جامعة ولاية نيويورك بألباني (SUNY)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data indicator -->
+    <div id="data-indicator">
+      <div class="data-row">
+        <div class="data-dot"></div>
+        <span id="data-val">0.00p</span>
+      </div>
+    </div>
+
+  </div><!-- /screen2 -->
+
+</div><!-- /app -->
+
+<div id="scroll-hint">
+  <span class="scroll-arrow">↓</span>
+  مرر للاستكشاف
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCRIPT
+══════════════════════════════════════════ -->
+<script>
+"use strict";
+
+// ── ABOUT DRUM LINES ─────────────────────────────
+const ABOUT_LINES = [
+  "[البيان التكريمي]",
+  "",
+  "كرّس [الدكتور عبد الجبار عبد الله]",
+  "حياته للعلم والمعرفة،",
+  "فكان شمعةً أضاءت دروب [الفيزياء]",
+  "في [العراق] والوطن العربي بأسره.",
+  "",
+  "تتلمذ على يد عباقرة عصره",
+  "في أرقى [المعاهد العلمية]،",
+  "ونال إطراء [ألبرت أينشتاين] بشخصه،",
+  "ثم عاد إلى وطنه ليبني وينشئ ويُعلِّم،",
+  "وليُرسي الأسس الأولى",
+  "لمجال [التنبؤ الجوي الحديث].",
+  "",
+  "رغم ما تعرّض له من [ظلم وتهجير]،",
+  "بقي وفياً لرسالته العلمية حتى آخر نفس.",
+  "فكانت حياته نموذجاً يُحتذى به",
+  "في [الصمود والعطاء]",
+  "وإخلاص [الولاء للمعرفة].",
+  "",
+  "رحم الله [عبد الجبار عبد الله]",
+  "وأسكنه فسيح جناته.",
+];
+
+const ABOUT_PINK_KW = [
+  "البيان التكريمي","الدكتور عبد الجبار عبد الله","الفيزياء",
+  "العراق","المعاهد العلمية","ألبرت أينشتاين","التنبؤ الجوي الحديث",
+  "ظلم وتهجير","الصمود والعطاء","الولاء للمعرفة","عبد الجبار عبد الله",
+];
+
+// Build about drum
+const aboutDrumInner = document.getElementById("about-drum-inner");
+const aboutDrumEls = [];
+ABOUT_LINES.forEach(line => {
+  const el = document.createElement(line === "" ? "div" : "p");
+  el.className = "about-drum-line";
+  if (line !== "") {
+    el.dir = "rtl";
+    parseSegments(line).forEach(seg => {
+      const sp = document.createElement("span");
+      if (seg.hl) {
+        const isPink = ABOUT_PINK_KW.some(k => seg.t.toLowerCase().includes(k.toLowerCase()));
+        sp.className = isPink ? "adl-pink" : "adl-white";
+      } else { sp.className = "adl-dim"; }
+      sp.textContent = seg.t;
+      el.appendChild(sp);
+    });
+  }
+  aboutDrumInner.appendChild(el);
+  aboutDrumEls.push(el);
+});
+
+// ── BIOGRAPHY LINES ──────────────────────────────
+const LINES = [
+  "تخليداً لذكرى العالم الفذ [عبد الجبار عبد الله]،",
+  "المولود عام [1911] بمحافظة ميسان، العراق،",
+  "من طائفة [الصابئة المندائيين] العريقة والمسالمة.",
+  "",
+  "عقل متقد وعشق للـ[فيزياء] منذ صغره،",
+  "تخرّج من [الجامعة الأمريكية في بيروت] عام [1934]،",
+  "فاتحاً [آفاقاً علمية] جديدة للوطن العربي.",
+  "",
+  "وفي عام [1946]، نال [دكتوراه من معهد MIT] المرموق،",
+  "ليصبح باحثاً فذاً في [ديناميكية الغلاف الجوي]،",
+  "وحاز على ثناء [ألبرت أينشتاين] شخصياً في برنستون.",
+  "",
+  "فك أسرار فيزياء [العواصف والأعاصير] المدمرة،",
+  "مطوّراً نماذج رياضية لحساب [انتشار الموجات]،",
+  "أرست الأسس الأولى لمجال [التنبؤ الجوي الحديث].",
+  "",
+  "وعند عودته لوطنه، أسس [قسم الفيزياء] بالعراق،",
+  "بكلية [دار المعلمين العالية] العتيدة في بغداد،",
+  "ملهماً أجيالاً لدراسة [العلوم الطبيعية].",
+  "",
+  "عُيّن ثاني رئيس لـ[جامعة بغداد] عام [1959]،",
+  "تزعم راية الاستقلال والـ[تعاون الدولي]،",
+  "محلقاً بـ[معايير التعليم العالي] للعالمية.",
+  "",
+  "لكن رياح السياسة غدرت: بعد [انقلاب 1963]،",
+  "تعرّض العالم الكبير للاعتقال والـ[سجن]،",
+  "بتهم باطلة خلّفتها [الاضطرابات السياسية].",
+  "",
+  "هبّت لمساندته ريح تضامن قادها [زملاء أينشتاين]،",
+  "أثمرت بالضغط ونيل [الحرية الفورية] له،",
+  "ليغادر مكرهاً ويواصل أبحاثه بأمريكا.",
+  "",
+  "انضم لـ[المركز الوطني لأبحاث الغلاف الجوي] (NCAR)،",
+  "ثم بروفيسوراً بـ[جامعة نيويورك بألباني]،",
+  "مقدماً أبحاثاً بـ[موجات الجاذبية] والضغط والأنواء.",
+  "",
+  "ترجل العالم الفذ عن صهوة الحياة في [9 يوليو 1969]،",
+  "بيد أن [إرثه العلمي] والـ[مبادئ] والـ[رؤية] الخالدة،",
+  "ستظل نبراساً ينير دروب المعرفة للبشرية."
+];
+
+const PINK_KW = [
+  "عبد الجبار عبد الله","1911","الصابئة المندائيين","فيزياء",
+  "الجامعة الأمريكية في بيروت","1934","آفاقاً علمية","1946",
+  "دكتوراه من معهد mit","ديناميكية الغلاف الجوي","ألبرت أينشتاين",
+  "العواصف والأعاصير","انتشار الموجات","التنبؤ الجوي الحديث",
+  "قسم الفيزياء","دار المعلمين العالية","العلوم الطبيعية",
+  "جامعة بغداد","1959","تعاون الدولي","معايير التعليم العالي",
+  "انقلاب 1963","سجن","الاضطرابات السياسية","زملاء أينشتاين",
+  "الحرية الفورية","المركز الوطني لأبحاث الغلاف الجوي",
+  "جامعة نيويورك بألباني","موجات الجاذبية","9 يوليو 1969",
+  "إرثه العلمي","مبادئ","رؤية"
+];
+
+// ── PARSE SEGMENTS ───────────────────────────────
+function parseSegments(line) {
+  const parts = []; let cur = ""; let inside = false;
+  for (const ch of line) {
+    if      (ch === "[") { if (cur) parts.push({t:cur,hl:false}); cur=""; inside=true; }
+    else if (ch === "]") { if (cur) parts.push({t:cur,hl:true});  cur=""; inside=false; }
+    else cur += ch;
+  }
+  if (cur) parts.push({t:cur,hl:inside});
+  return parts;
+}
+
+// ── BUILD DRUM ───────────────────────────────────
+const drumInner = document.getElementById("drum-inner");
+const drumEls = [];
+LINES.forEach(line => {
+  const el = document.createElement(line === "" ? "div" : "p");
+  el.className = "drum-line";
+  if (line !== "") {
+    el.dir = "rtl";
+    parseSegments(line).forEach(seg => {
+      const sp = document.createElement("span");
+      if (seg.hl) {
+        const isPink = PINK_KW.some(k => seg.t.toLowerCase().includes(k));
+        sp.className = isPink ? "hl-pink" : "hl-white";
+      } else { sp.className = "dim"; }
+      sp.textContent = seg.t;
+      el.appendChild(sp);
+    });
+  }
+  drumInner.appendChild(el);
+  drumEls.push(el);
+});
+
+// ── SCROLL STATE ─────────────────────────────────
+let scrollProgress = 0;
+let lerpedProgress = 0;
+let isNav = false, navStart = 0, navTarget = 0, navTime = null;
+let lastTY = 0;
+
+const MAX = 3.5;
+const clamp01  = v => Math.max(0, Math.min(1, v));
+const clampMax = v => Math.max(0, Math.min(MAX, v));
+
+function setScroll(v) { scrollProgress = clampMax(v); }
+function navigateTo(r) {
+  isNav = true; navStart = scrollProgress; navTarget = r; navTime = performance.now();
+}
+
+// ── MOBILE MENU ──────────────────────────────────
+let menuOpen = false;
+function toggleMobileMenu() {
+  menuOpen = !menuOpen;
+  document.getElementById("mobile-menu").classList.toggle("open", menuOpen);
+  document.getElementById("hamburger").textContent = menuOpen ? "✕" : "☰";
+}
+
+// ── INPUT ────────────────────────────────────────
+document.body.style.overflow = "hidden";
+window.addEventListener("wheel",      e => { e.preventDefault(); if(isNav)isNav=false; setScroll(scrollProgress + e.deltaY * 0.0006); }, {passive:false});
+window.addEventListener("touchstart", e => { if(e.touches.length) lastTY = e.touches[0].clientY; if(isNav)isNav=false; }, {passive:true});
+window.addEventListener("touchmove",  e => {
+  if(e.cancelable) e.preventDefault();
+  if(e.touches.length){ const dy=lastTY-e.touches[0].clientY; setScroll(scrollProgress+dy*0.0015); lastTY=e.touches[0].clientY; }
+}, {passive:false});
+
+// ── VIDEO SCRUBBER 1 ─────────────────────────────
+const vid1 = document.getElementById("video1");
+const vl1  = document.getElementById("video-loading1");
+let v1loaded = false, v1dur = 4.2, v1cur = 0;
+vid1.addEventListener("loadedmetadata", () => { if(!isNaN(vid1.duration)) v1dur=vid1.duration; v1loaded=true; vl1.style.display="none"; });
+vid1.addEventListener("canplay",        () => { v1loaded=true; vl1.style.display="none"; });
+if(vid1.readyState>=1){ v1loaded=true; vl1.style.display="none"; if(!isNaN(vid1.duration)) v1dur=vid1.duration; }
+
+// ── VIDEO SCRUBBER 2 ─────────────────────────────
+const vid2 = document.getElementById("video2");
+const vl2  = document.getElementById("video-loading2");
+let v2loaded = false, v2dur = 4.2, v2cur = 0;
+vid2.addEventListener("loadedmetadata", () => { if(!isNaN(vid2.duration)) v2dur=vid2.duration; v2loaded=true; vl2.style.display="none"; });
+vid2.addEventListener("canplay",        () => { v2loaded=true; vl2.style.display="none"; });
+if(vid2.readyState>=1){ v2loaded=true; vl2.style.display="none"; if(!isNaN(vid2.duration)) v2dur=vid2.duration; }
+
+// ── PARALLAX (mouse) ─────────────────────────────
+const vp1 = document.getElementById("video-parallax1");
+const vp2 = document.getElementById("video-parallax2");
+window.addEventListener("mousemove", e => {
+  const mx = e.clientX/innerWidth - 0.5;
+  const my = e.clientY/innerHeight - 0.5;
+  gsap.to(vp1, {x:-mx*40, y:-my*40, duration:1.2, ease:"power2.out", overwrite:"auto"});
+  gsap.to(vp2, {x:-mx*40, y:-my*40, duration:1.2, ease:"power2.out", overwrite:"auto"});
+});
+
+// ── HERO TITLE GSAP ──────────────────────────────
+const heroWords = [document.getElementById("hw0"), document.getElementById("hw1")];
+const heroTL = gsap.timeline({paused:true});
+heroTL.fromTo(heroWords,
+  {opacity:1, yPercent:0, scaleY:1, scaleX:1, transformOrigin:"50% 0%"},
+  {opacity:0, yPercent:300, y:"25vh", scaleY:1.2, scaleX:0.9, stagger:0.03, ease:"power2.inOut"}
+);
+
+// ── SOAP TILES ───────────────────────────────────
+const tiles = document.querySelectorAll(".soap-tile");
+let tileHovered = null;
+tiles.forEach((t, i) => {
+  t.addEventListener("mouseenter", () => { tileHovered = i; });
+  t.addEventListener("mouseleave", () => { tileHovered = null; });
+});
+
+function renderTiles(lp) {
+  const visible = lp > 0.75;
+  const ease = clamp01((lp - 0.75) / 0.22);
+  tiles.forEach((tile, idx) => {
+    const baseOffset = parseFloat(tile.dataset.offset);
+    const tx = (ease - 1) * baseOffset;
+    let ty = 0, sc = 1;
+    if (tileHovered !== null) {
+      if (tileHovered === idx) sc = 1.2;
+      else ty = idx < tileHovered ? -13.8 : 13.8;
+    }
+    tile.style.transform  = `translateX(${tx}px) translateY(${ty}px) scale(${sc})`;
+    tile.style.opacity    = visible ? ease : 0;
+    tile.style.filter     = ease < 1 ? `blur(${(1-ease)*12}px)` : "none";
+    tile.style.pointerEvents = visible ? "auto" : "none";
+  });
+}
+
+// ── ABOUT DRUM RENDER ────────────────────────────
+const AR = 380, ALH = 56;
+function renderAboutDrum(sp) {
+  const dp = clamp01((sp - 3.20) / (3.50 - 3.20));
+  const ti = dp * (ABOUT_LINES.length - 1);
+  aboutDrumEls.forEach((el, idx) => {
+    const diff = idx - ti;
+    const ty   = diff * ALH;
+    const ang  = ty / AR;
+    const ad   = ang * (180 / Math.PI);
+    const tz   = Math.cos(ang) * AR - AR;
+    const sc   = 0.78 + Math.cos(ang) * 0.22;
+    const op   = Math.max(0, (Math.cos(ang) - 0.2) / 0.8);
+    const bl   = Math.min(8, Math.max(0, (Math.abs(diff) - 1.5) * 0.75));
+    el.style.transform = `translateY(${ty}px) translateZ(${tz}px) rotateX(${-ad * 0.8}deg) scale(${sc})`;
+    el.style.transformOrigin = "center center";
+    el.style.opacity = ABOUT_LINES[idx] === "" ? op * 0.3 : op;
+    el.style.filter  = bl > 0.1 ? `blur(${bl}px)` : "none";
+  });
+}
+
+// ── DRUM RENDER ──────────────────────────────────
+const R = 380, LH = 52;
+function renderDrum(lp) {
+  const dp = clamp01((lp - 1.45) / (3.5 - 1.45));
+  const ti = dp * (LINES.length - 1);
+  drumEls.forEach((el, idx) => {
+    const diff = idx - ti;
+    const ty   = diff * LH;
+    const ang  = ty / R;
+    const ad   = ang * (180 / Math.PI);
+    const tz   = Math.cos(ang) * R - R;
+    const sc   = 0.78 + Math.cos(ang) * 0.22;
+    const op   = Math.max(0, (Math.cos(ang) - 0.2) / 0.8);
+    const bl   = Math.min(8, Math.max(0, (Math.abs(diff) - 1.5) * 0.75));
+    el.style.transform = `translateY(${ty}px) translateZ(${tz}px) rotateX(${-ad*0.8}deg) scale(${sc})`;
+    el.style.transformOrigin = "right center";
+    el.style.opacity = LINES[idx] === "" ? op*0.3 : op;
+    el.style.filter  = bl > 0.1 ? `blur(${bl}px)` : "none";
+  });
+}
+
+// ── NAV STATE ────────────────────────────────────
+function updateNav(sp) {
+  let active = "hero";
+  if      (sp >= 0.40 && sp < 1.15) active = "legacy";
+  else if (sp >= 1.15 && sp < 3.20) active = "biography";
+  else if (sp >= 3.20)              active = "about";
+
+  document.getElementById("nav-legacy").className = active==="legacy" ? "active" : "";
+  document.getElementById("nav-bio").className    = active==="biography" ? "active" : "";
+  document.getElementById("nav-about").className  = "pill" + (active==="about" ? " active" : "");
+
+  const sa = document.getElementById("section-about");
+  const aboutVid = document.getElementById("about-video-bg");
+  const showAbout = sp >= 3.20;
+  showAbout ? sa.classList.add("visible") : sa.classList.remove("visible");
+  if (aboutVid) { showAbout ? aboutVid.play().catch(()=>{}) : aboutVid.pause(); }
+
+  const tlShow = clamp01((sp - 1.45) / 0.8);
+  [1,2,3,4,5].forEach((n,i) => {
+    const el = document.getElementById(`tl-${n}`);
+    if(el) el.classList.toggle("visible", tlShow > i*0.18);
+  });
+}
+
+// ── MAIN LOOP ─────────────────────────────────────
+function tick(now) {
+  // Programmatic navigation easing
+  if (isNav && navTime !== null) {
+    const t = Math.min((now - navTime) / 1200, 1);
+    const e = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+    setScroll(navStart + (navTarget - navStart) * e);
+    if (t >= 1) isNav = false;
+  }
+
+  // Lerp
+  const diff = scrollProgress - lerpedProgress;
+  lerpedProgress = Math.abs(diff) < 0.0001 ? scrollProgress : lerpedProgress + diff * 0.08;
+  const lp = lerpedProgress;
+
+  // Screen 2 rise
+  const s2p  = clamp01((lp - 1.15) / 0.5);
+  const s2e  = 1 - Math.pow(1 - s2p, 3);
+  const blur = Math.sin((s2p * Math.PI) / 2) * 64;
+
+  const s1 = document.getElementById("screen1");
+  const s2 = document.getElementById("screen2");
+  s1.style.filter = s2p > 0 ? `blur(${blur}px)` : "none";
+  s2.style.transform  = `translateY(${(1-s2e)*100}%)`;
+  s2.style.visibility = s2p > 0 ? "visible" : "hidden";
+
+  // Hero title
+  gsap.to(heroTL, {progress: Math.min(1,lp), duration:.6, ease:"power1.out", overwrite:"auto"});
+
+  // Video 1 scrub (progress 0→1)
+  if(v1loaded) {
+    const t1 = Math.min(lp, 1) * v1dur;
+    v1cur += (t1 - v1cur) * 0.15;
+    const f1 = Math.max(0, Math.min(v1cur, v1dur - 0.05));
+    if(!vid1.seeking && Math.abs(vid1.currentTime - f1) > 0.01) vid1.currentTime = f1;
+  }
+
+  // Video 2 scrub (drum range 1.45→3.5)
+  if(v2loaded) {
+    const dp = clamp01((lp - 1.45) / (3.5 - 1.45));
+    const t2 = dp * v2dur;
+    v2cur += (t2 - v2cur) * 0.15;
+    const f2 = Math.max(0, Math.min(v2cur, v2dur - 0.05));
+    if(!vid2.seeking && Math.abs(vid2.currentTime - f2) > 0.01) vid2.currentTime = f2;
+  }
+
+  // Soap tiles
+  renderTiles(lp);
+
+  // Drum
+  renderDrum(lp);
+  renderAboutDrum(lp);
+
+  // Nav
+  updateNav(scrollProgress);
+
+  // Data indicator
+  document.getElementById("data-val").textContent = lp.toFixed(2) + "p";
+
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>
