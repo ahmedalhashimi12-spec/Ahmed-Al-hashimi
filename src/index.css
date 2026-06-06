@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=Michroma&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-manrope: "Cairo", "Manrope", sans-serif;
+  --font-michroma: "Michroma", "Cairo", sans-serif;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #11010a; }
+::-webkit-scrollbar-thumb { background: #ea1f63; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #ff5c93; }
+
+html, body {
+  background-color: #11010a;
+  color: #ffffff;
+  overflow-x: hidden;
+  font-family: var(--font-manrope);
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-container {
+  display: flex; overflow: hidden; width: 100%; position: relative;
+  mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+}
+.marquee-track {
+  display: flex; width: max-content; flex-wrap: nowrap;
+  animation: marquee-scroll linear infinite;
+  will-change: transform;
+}

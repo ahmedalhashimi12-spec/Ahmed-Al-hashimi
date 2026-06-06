@@ -1,0 +1,6 @@
+{
+  "name": "Abd Al-Jabbar Abdullah Tribute",
+  "description": "An interactive scroll-driven biography and tribute website for the pioneering Iraqi physicist Dr. Abd al-Jabbar Abdullah.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
